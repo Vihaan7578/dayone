@@ -3,305 +3,514 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DayOne - Project Proposal</title>
+    <title>DayOne: Wellness Infographic</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <!-- Font Awesome (WebFonts only, No SVG) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
-        .gradient-text {
-            background: linear-gradient(to right, #ea580c, #d946ef);
+        /* Palette Selection: "Energetic & Playful" (Vibrant)
+           Primary: #FF6B00 (Vibrant Orange)
+           Secondary: #2E86AB (Electric Blue)
+           Accent: #A2D729 (Lime Green)
+           Dark: #1A202C (Slate 900)
+           Light: #F7FAFC (Slate 50)
+        */
+        :root {
+            --color-primary: #FF6B00;
+            --color-secondary: #2E86AB;
+            --color-accent: #A2D729;
+            --font-main: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #F7FAFC;
+            color: #1A202C;
+            overflow-x: hidden;
+        }
+
+        /* Chart Container Styling - Responsive Boundaries */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Constraint for large screens */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Base height */
+            max-height: 400px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Custom Utilities */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #FF6B00, #F59E0B);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #FF6B00 0%, #FF8800 100%);
         }
-        .hero-bg {
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
+
+        /* Ecosystem Diagram Styling (CSS Only - No SVG/Mermaid) */
+        .eco-node {
+            transition: all 0.3s ease;
+        }
+        .eco-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .connector-line {
+            width: 2px;
+            background-color: #CBD5E0;
+            position: absolute;
+            z-index: 0;
         }
     </style>
+    <!-- 
+        NARRATIVE PLAN:
+        1. Intro/Hook: "Wellness Starts DayOne". High energy introduction.
+        2. The Problem: Comparison of Generic vs. Specialized.
+        3. Solution Analysis (Competitive): Radar Chart.
+        4. Target Audience: Donut Chart showing market segmentation.
+        5. Scalability Ecosystem: CSS Diagram showing Gym/Expert integration.
+        6. Feasibility: Bar Chart showing readiness metrics.
+        7. Conclusion: Tech stack and call to action.
+        
+        NO SVG USED. NO MERMAID USED.
+    -->
 </head>
-<body class="text-slate-800">
+<body class="antialiased">
 
     <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
-                    <i data-lucide="activity" class="h-8 w-8 text-orange-600 mr-2"></i>
-                    <span class="text-2xl font-bold tracking-tight text-slate-900">DayOne</span>
+                <div class="flex items-center text-2xl font-bold tracking-tight">
+                    <span style="color: var(--color-primary);">Day</span><span style="color: var(--color-secondary);">One</span>
                 </div>
-                <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
-                    <a href="#problem" class="hover:text-orange-600 transition">The Problem</a>
-                    <a href="#solution" class="hover:text-orange-600 transition">The Solution</a>
-                    <a href="#feasibility" class="hover:text-orange-600 transition">Feasibility</a>
-                    <a href="#scalability" class="hover:text-orange-600 transition">Scalability</a>
+                <div class="hidden md:flex space-x-8 text-sm font-semibold text-gray-500">
+                    <a href="#mission" class="hover:text-orange-500 transition">Mission</a>
+                    <a href="#competitive" class="hover:text-orange-500 transition">Advantage</a>
+                    <a href="#market" class="hover:text-orange-500 transition">Market</a>
+                    <a href="#ecosystem" class="hover:text-orange-500 transition">Ecosystem</a>
                 </div>
-                <button class="bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-orange-700 transition shadow-md">
-                    View Prototype
-                </button>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero-bg text-white h-[500px] flex items-center justify-center text-center px-4">
-        <div class="max-w-4xl">
-            <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-                Wellness Starts <span class="text-orange-500">DayOne</span>
+    <header id="mission" class="relative bg-slate-900 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center"></div>
+        <div class="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-600 text-xs font-bold uppercase tracking-wide mb-4">The Future of Indian Wellness</span>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
+                Wellness Starts <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">DayOne</span>
             </h1>
-            <p class="text-xl md:text-2xl text-gray-200 mb-8 font-light">
-                Hyper-personalized, region-specific AI nutrition & fitness guidance for the modern Indian lifestyle.
+            <p class="text-xl text-gray-300 max-w-3xl mb-10 leading-relaxed">
+                Existing apps offer generic advice. DayOne fills the critical gap for the <strong>"Indian Context"</strong>—tailoring AI-driven plans to regional cuisines, local lifestyle habits, and specific body types.
             </p>
-            <div class="flex justify-center gap-4">
-                <a href="#solution" class="bg-white text-orange-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">Explore the Solution</a>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-4xl mt-8">
+                <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20">
+                    <div class="text-3xl font-bold text-orange-400">AI</div>
+                    <div class="text-xs text-gray-300 uppercase">Hyper-Local Logic</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20">
+                    <div class="text-3xl font-bold text-blue-400">360°</div>
+                    <div class="text-xs text-gray-300 uppercase">Holistic Tracking</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20">
+                    <div class="text-3xl font-bold text-green-400">100%</div>
+                    <div class="text-xs text-gray-300 uppercase">Region Specific</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20">
+                    <div class="text-3xl font-bold text-purple-400">PRO</div>
+                    <div class="text-xs text-gray-300 uppercase">Expert Access</div>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- The Problem & Solution Grid -->
-    <section id="problem" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-slate-900">Why the Market Needs DayOne</h2>
-            <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">Existing solutions are generic. We solve the specific "Indian Context" gap.</p>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-            <!-- Problem Card -->
-            <div class="bg-white p-8 rounded-2xl shadow-lg border-l-4 border-red-500 card-hover transition duration-300">
-                <div class="flex items-center mb-6">
-                    <div class="p-3 bg-red-100 rounded-full mr-4">
-                        <i data-lucide="alert-circle" class="h-6 w-6 text-red-600"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold">The Problem</h3>
-                </div>
-                <ul class="space-y-4">
-                    <li class="flex items-start">
-                        <i data-lucide="x" class="h-5 w-5 text-red-500 mr-2 mt-1"></i>
-                        <span class="text-slate-600"><strong>Generic Plans:</strong> No customization for Indian regional diets (e.g., South vs. North Indian).</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i data-lucide="x" class="h-5 w-5 text-red-500 mr-2 mt-1"></i>
-                        <span class="text-slate-600"><strong>Fragmented Experience:</strong> Diet, workout, and recovery tracking are rarely in one app.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i data-lucide="x" class="h-5 w-5 text-red-500 mr-2 mt-1"></i>
-                        <span class="text-slate-600"><strong>Zero Local Support:</strong> Lack of integration with local gyms or sports academies.</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Solution Card -->
-            <div id="solution" class="bg-white p-8 rounded-2xl shadow-lg border-l-4 border-green-500 card-hover transition duration-300">
-                <div class="flex items-center mb-6">
-                    <div class="p-3 bg-green-100 rounded-full mr-4">
-                        <i data-lucide="check-circle-2" class="h-6 w-6 text-green-600"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold">The DayOne Solution</h3>
-                </div>
-                <ul class="space-y-4">
-                    <li class="flex items-start">
-                        <i data-lucide="check" class="h-5 w-5 text-green-500 mr-2 mt-1"></i>
-                        <span class="text-slate-600"><strong>Hyper-Local AI:</strong> Diet charts adapted to age, BMI, and <em>regional</em> cuisine preferences.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i data-lucide="check" class="h-5 w-5 text-green-500 mr-2 mt-1"></i>
-                        <span class="text-slate-600"><strong>All-in-One Ecosystem:</strong> Workouts, calorie tracking, and recovery stats in one dashboard.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i data-lucide="check" class="h-5 w-5 text-green-500 mr-2 mt-1"></i>
-                        <span class="text-slate-600"><strong>Real-World Link:</strong> Direct connections to webinars, specialists, and gym partners.</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Feature Comparison Table -->
-    <section class="py-16 bg-white border-y border-gray-100">
-        <div class="max-w-5xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">Competitive Advantage</h2>
-            <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-50 border-b border-gray-200 text-sm uppercase text-slate-500">
-                            <th class="py-4 px-6 font-semibold">Feature</th>
-                            <th class="py-4 px-6 font-semibold text-center text-orange-600 bg-orange-50">DayOne AI</th>
-                            <th class="py-4 px-6 font-semibold text-center">Generic Apps</th>
-                            <th class="py-4 px-6 font-semibold text-center">Traditional Dietician</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100 text-slate-700 text-sm">
-                        <tr>
-                            <td class="py-4 px-6 font-medium">Indian Regional Diet Support</td>
-                            <td class="py-4 px-6 text-center bg-orange-50 font-bold text-green-600">High</td>
-                            <td class="py-4 px-6 text-center text-red-500">Low</td>
-                            <td class="py-4 px-6 text-center">High</td>
-                        </tr>
-                        <tr>
-                            <td class="py-4 px-6 font-medium">Cost Accessibility</td>
-                            <td class="py-4 px-6 text-center bg-orange-50 font-bold text-green-600">Free/Freemium</td>
-                            <td class="py-4 px-6 text-center">Freemium</td>
-                            <td class="py-4 px-6 text-center text-red-500">Expensive</td>
-                        </tr>
-                        <tr>
-                            <td class="py-4 px-6 font-medium">Real-time Adaptation (AI)</td>
-                            <td class="py-4 px-6 text-center bg-orange-50 font-bold text-green-600">Instant</td>
-                            <td class="py-4 px-6 text-center text-yellow-500">Limited</td>
-                            <td class="py-4 px-6 text-center text-red-500">Slow</td>
-                        </tr>
-                        <tr>
-                            <td class="py-4 px-6 font-medium">Holistic (Diet + Workout + Recovery)</td>
-                            <td class="py-4 px-6 text-center bg-orange-50 font-bold text-green-600">Yes</td>
-                            <td class="py-4 px-6 text-center">Often Separate</td>
-                            <td class="py-4 px-6 text-center text-red-500">Rarely</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Feasibility & Data Visualization -->
-    <section id="feasibility" class="py-20 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-16 text-slate-900">Project Feasibility & Scalability</h2>
+    <!-- Section: Competitive Analysis (Radar Chart) -->
+    <section id="competitive" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            <div class="grid lg:grid-cols-2 gap-12">
-                <!-- Chart 1: Market Potential -->
-                <div class="bg-white p-6 rounded-2xl shadow-md">
-                    <h3 class="text-xl font-bold mb-4 text-center">Target Audience Segmentation</h3>
-                    <div class="h-64 flex justify-center">
+            <!-- Narrative Column -->
+            <div>
+                <h2 class="text-3xl font-bold mb-6 text-slate-800 border-l-8 pl-4" style="border-color: var(--color-primary);">Why DayOne Wins</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    The Indian market is flooded with generic fitness apps that fail to account for local realities. DayOne outperforms traditional dietitians and global apps by combining <strong>affordability</strong>, <strong>speed</strong>, and <strong>cultural depth</strong>.
+                </p>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">1</div>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-bold text-slate-800">Regional Depth</h4>
+                            <p class="text-sm text-gray-600">Unlike generic apps, we handle South vs. North Indian diets, Jain preferences, and local ingredient availability.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">2</div>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-bold text-slate-800">Holistic Ecosystem</h4>
+                            <p class="text-sm text-gray-600">We don't just count calories. We integrate workout logs, recovery stats, and local gym connections.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualization Column -->
+            <div class="glass-card p-6 rounded-2xl">
+                <h3 class="text-sm font-bold text-gray-400 uppercase mb-4 tracking-wider text-center">Competitive Landscape Analysis</h3>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+                <p class="text-xs text-center text-gray-400 mt-4 italic">
+                    Figure 1: DayOne (Orange) dominates in personalization and local integration compared to competitors.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Target Audience (Donut Chart) -->
+    <section id="market" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-800">Market Segmentation</h2>
+                <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
+                    Who needs DayOne? Our analysis identifies four core user groups driving the exponential growth of India's health app market.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Chart Column -->
+                <div class="flex flex-col items-center justify-center">
+                    <div class="chart-container">
                         <canvas id="audienceChart"></canvas>
                     </div>
-                    <p class="mt-4 text-sm text-slate-500 text-center">Diverse user base ensures broad market penetration across demographics.</p>
                 </div>
 
-                <!-- Chart 2: Feasibility Score -->
-                <div class="bg-white p-6 rounded-2xl shadow-md">
-                    <h3 class="text-xl font-bold mb-4 text-center">Implementation Feasibility</h3>
-                    <div class="h-64 flex justify-center">
-                        <canvas id="feasibilityChart"></canvas>
+                <!-- Data Context Column -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="p-6 rounded-xl bg-slate-50 border border-slate-100 hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-blue-600 mb-2">35%</div>
+                        <h4 class="font-bold text-slate-800">Busy Professionals</h4>
+                        <p class="text-sm text-gray-600 mt-2">Time-poor individuals seeking automated, AI-driven guidance that fits a 9-5 routine.</p>
                     </div>
-                    <p class="mt-4 text-sm text-slate-500 text-center">Leveraging existing API tech and high market demand creates a low-barrier entry.</p>
-                </div>
-            </div>
-
-            <!-- Scalability Metrics -->
-            <div id="scalability" class="mt-16 grid md:grid-cols-3 gap-8 text-center">
-                <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div class="text-orange-500 text-4xl font-bold mb-2">High</div>
-                    <div class="font-semibold text-slate-700">Market Demand</div>
-                    <p class="text-xs text-slate-500 mt-2">India's fitness app market is growing exponentially.</p>
-                </div>
-                <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div class="text-blue-500 text-4xl font-bold mb-2">Rapid</div>
-                    <div class="font-semibold text-slate-700">Development Cycle</div>
-                    <p class="text-xs text-slate-500 mt-2">AI-assisted coding (Gemini/Claude) reduces dev time by 40%.</p>
-                </div>
-                <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div class="text-purple-500 text-4xl font-bold mb-2">100%</div>
-                    <div class="font-semibold text-slate-700">Digital Adoption</div>
-                    <p class="text-xs text-slate-500 mt-2">Target audience is already digital-native and AI-ready.</p>
+                    <div class="p-6 rounded-xl bg-slate-50 border border-slate-100 hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-green-500 mb-2">25%</div>
+                        <h4 class="font-bold text-slate-800">Students & Youth</h4>
+                        <p class="text-sm text-gray-600 mt-2">Digital natives looking for cost-effective, tech-first solutions for fitness.</p>
+                    </div>
+                    <div class="p-6 rounded-xl bg-slate-50 border border-slate-100 hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-orange-500 mb-2">20%</div>
+                        <h4 class="font-bold text-slate-800">Regional Users</h4>
+                        <p class="text-sm text-gray-600 mt-2">Underserved markets requiring vernacular support and culturally relevant diet plans.</p>
+                    </div>
+                    <div class="p-6 rounded-xl bg-slate-50 border border-slate-100 hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-purple-500 mb-2">20%</div>
+                        <h4 class="font-bold text-slate-800">Fitness Enthusiasts</h4>
+                        <p class="text-sm text-gray-600 mt-2">Advanced users needing specific macro-tracking and recovery analytics.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Technical Stack -->
-    <section class="py-16 max-w-7xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-12">Built with Modern Tech</h2>
-        <div class="flex flex-wrap justify-center gap-6">
-            <span class="px-6 py-3 bg-white shadow-sm border border-gray-200 rounded-lg font-semibold text-slate-700 flex items-center">
-                <i data-lucide="code" class="w-5 h-5 mr-2 text-blue-500"></i> VS Code
-            </span>
-            <span class="px-6 py-3 bg-white shadow-sm border border-gray-200 rounded-lg font-semibold text-slate-700 flex items-center">
-                <i data-lucide="cpu" class="w-5 h-5 mr-2 text-purple-500"></i> AI Generated Core
-            </span>
-            <span class="px-6 py-3 bg-white shadow-sm border border-gray-200 rounded-lg font-semibold text-slate-700 flex items-center">
-                <i data-lucide="globe" class="w-5 h-5 mr-2 text-orange-500"></i> HTML5 / Tailwind
-            </span>
-            <span class="px-6 py-3 bg-white shadow-sm border border-gray-200 rounded-lg font-semibold text-slate-700 flex items-center">
-                <i data-lucide="database" class="w-5 h-5 mr-2 text-green-500"></i> Smart Analytics
-            </span>
+    <!-- Section: Scalability Ecosystem (Custom CSS Diagram) -->
+    <section id="ecosystem" class="py-20 bg-slate-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-800">The Hybrid Ecosystem</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-16">
+                DayOne is not just an app; it's a platform connecting digital intelligence with physical infrastructure. This hybrid model ensures high scalability and user retention.
+            </p>
+
+            <!-- Diagram Container -->
+            <div class="relative max-w-5xl mx-auto py-10">
+                
+                <!-- Central Hub -->
+                <div class="flex justify-center mb-16 relative z-10">
+                    <div class="eco-node bg-white p-8 rounded-full shadow-xl border-4 border-orange-500 w-48 h-48 flex flex-col items-center justify-center text-center">
+                        <span class="text-3xl mb-2">📱</span>
+                        <h3 class="font-extrabold text-xl text-slate-900">DayOne App</h3>
+                        <p class="text-xs text-orange-600 font-bold uppercase mt-1">AI Core Logic</p>
+                    </div>
+                </div>
+
+                <!-- Connected Nodes -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                    
+                    <!-- Node 1 -->
+                    <div class="eco-node bg-white p-6 rounded-xl shadow-lg border-t-4 border-blue-500 text-center">
+                        <div class="text-4xl mb-4">💪</div>
+                        <h4 class="font-bold text-lg text-slate-800">Gym Network</h4>
+                        <p class="text-sm text-gray-600 mt-2">Syncs digital diet plans with physical workout data from partner gyms.</p>
+                    </div>
+
+                    <!-- Node 2 -->
+                    <div class="eco-node bg-white p-6 rounded-xl shadow-lg border-t-4 border-green-500 text-center">
+                        <div class="text-4xl mb-4">🩺</div>
+                        <h4 class="font-bold text-lg text-slate-800">Expert Market</h4>
+                        <p class="text-sm text-gray-600 mt-2">Hyper-local access to nutritionists and accident recovery specialists.</p>
+                    </div>
+
+                    <!-- Node 3 -->
+                    <div class="eco-node bg-white p-6 rounded-xl shadow-lg border-t-4 border-purple-500 text-center">
+                        <div class="text-4xl mb-4">🎓</div>
+                        <h4 class="font-bold text-lg text-slate-800">Knowledge Hub</h4>
+                        <p class="text-sm text-gray-600 mt-2">Weekly webinars and workshops to educate and retain the user base.</p>
+                    </div>
+                </div>
+
+                <!-- Connectors (Visual Lines) -->
+                <div class="absolute top-1/2 left-0 w-full h-px hidden md:block border-t-2 border-dashed border-gray-300 -z-0" style="top: 35%;"></div>
+                <div class="absolute left-1/2 top-32 w-px h-24 hidden md:block border-l-2 border-dashed border-gray-300 -z-0" style="transform: translateX(-50%);"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Feasibility & Tech (Bar Chart) -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                
+                <!-- Chart Area -->
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-6">Implementation Readiness</h3>
+                    <p class="text-gray-600 mb-8">
+                        Why now? The convergence of high market demand and available AI technologies makes DayOne highly feasible to implement immediately.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="feasibilityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Tech Stack & Conclusion -->
+                <div class="flex flex-col justify-center">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-6">Technical Architecture</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                            <span class="text-xs font-bold text-gray-400 uppercase">Core</span>
+                            <div class="font-bold text-slate-800">AI Generated Logic</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                            <span class="text-xs font-bold text-gray-400 uppercase">Frontend</span>
+                            <div class="font-bold text-slate-800">HTML5 / Tailwind</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                            <span class="text-xs font-bold text-gray-400 uppercase">Tools</span>
+                            <div class="font-bold text-slate-800">VS Code / Git</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                            <span class="text-xs font-bold text-gray-400 uppercase">Data</span>
+                            <div class="font-bold text-slate-800">Smart Analytics</div>
+                        </div>
+                    </div>
+                    <div class="bg-orange-600 text-white p-8 rounded-2xl shadow-lg text-center">
+                        <h4 class="text-2xl font-bold mb-2">Ready to scale?</h4>
+                        <p class="mb-6 opacity-90">DayOne is poised to redefine Indian wellness.</p>
+                        <button class="bg-white text-orange-600 px-8 py-3 rounded-full font-bold hover:bg-orange-50 transition shadow-md">
+                            View Full Proposal
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <div class="flex justify-center items-center mb-6">
-                <i data-lucide="activity" class="h-8 w-8 text-orange-500 mr-2"></i>
-                <span class="text-2xl font-bold">DayOne</span>
-            </div>
-            <p class="text-gray-400 mb-8 max-w-md mx-auto">Redefining personal wellness in India through AI innovation. Start your journey today.</p>
-            <div class="border-t border-slate-800 pt-8 text-sm text-gray-500">
-                &copy; 2025 DayOne AI. All rights reserved.
-            </div>
-        </div>
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm">
+        <p>&copy; 2025 DayOne AI. All Rights Reserved.</p>
+        <p class="mt-2 text-xs opacity-50">Visualized for Investor Review</p>
     </footer>
 
-    <!-- Script for Icons -->
+    <!-- JavaScript for Charts -->
     <script>
-        lucide.createIcons();
-    </script>
+        // --- UTILITY: Label Wrapping Logic (16 chars) ---
+        function wrapLabel(label) {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
 
-    <!-- Script for Charts -->
-    <script>
-        // Audience Chart
-        const ctx1 = document.getElementById('audienceChart').getContext('2d');
-        new Chart(ctx1, {
-            type: 'doughnut',
-            data: {
-                labels: ['Busy Professionals', 'Students/Youth', 'Fitness Enthusiasts', 'Regional Users'],
-                datasets: [{
-                    data: [35, 25, 20, 20],
-                    backgroundColor: ['#f97316', '#3b82f6', '#10b981', '#a855f7'],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom' }
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + ' ' + words[i]).length <= 16) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
                 }
             }
-        });
+            lines.push(currentLine);
+            return lines;
+        }
 
-        // Feasibility Chart
-        const ctx2 = document.getElementById('feasibilityChart').getContext('2d');
-        new Chart(ctx2, {
-            type: 'bar',
+        // --- GLOBAL: Tooltip Configuration ---
+        const globalTooltipPlugin = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- CHART 1: RADAR CHART (Competitive Analysis) ---
+        // Justification: Radar charts are ideal for comparing multiple variables (axes) across different entities.
+        const ctxRadar = document.getElementById('radarChart').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
             data: {
-                labels: ['Tech Availability', 'Market Demand', 'User Readiness', 'Cost Efficiency'],
-                datasets: [{
-                    label: 'Score (out of 10)',
-                    data: [9.5, 9, 8.5, 9],
-                    backgroundColor: '#f97316',
-                    borderRadius: 5
-                }]
+                labels: ['Regional Support', 'Cost Efficiency', 'Real-time AI', 'Holistic Scope', 'Local Support'].map(wrapLabel),
+                datasets: [
+                    {
+                        label: 'DayOne AI',
+                        data: [10, 9, 10, 10, 10], // High scores across the board
+                        fill: true,
+                        backgroundColor: 'rgba(255, 107, 0, 0.2)', // Vibrant Orange Translucent
+                        borderColor: '#FF6B00',
+                        pointBackgroundColor: '#FF6B00',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#FF6B00'
+                    },
+                    {
+                        label: 'Generic Apps',
+                        data: [3, 8, 6, 4, 1], // Weak in local/regional
+                        fill: true,
+                        backgroundColor: 'rgba(148, 163, 184, 0.2)', // Slate Gray
+                        borderColor: '#94a3b8',
+                        pointBackgroundColor: '#94a3b8',
+                        pointBorderColor: '#fff',
+                    },
+                    {
+                        label: 'Dietitians',
+                        data: [9, 2, 2, 7, 3], // Good quality but slow/expensive
+                        fill: true,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)', // Blue
+                        borderColor: '#3b82f6',
+                        pointBackgroundColor: '#3b82f6',
+                        pointBorderColor: '#fff',
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { beginAtZero: true, max: 10 }
+                    r: {
+                        angleLines: { color: '#e2e8f0' },
+                        grid: { color: '#e2e8f0' },
+                        pointLabels: {
+                            font: { size: 12, family: 'Poppins' },
+                            color: '#475569'
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
                 },
                 plugins: {
-                    legend: { display: false }
+                    legend: { position: 'bottom', labels: { usePointStyle: true, font: { family: 'Poppins' } } },
+                    tooltip: globalTooltipPlugin
+                }
+            }
+        });
+
+        // --- CHART 2: DONUT CHART (Target Audience) ---
+        // Justification: Perfect for showing composition/parts of a whole (Market Share).
+        const ctxDonut = document.getElementById('audienceChart').getContext('2d');
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: ['Busy Professionals', 'Students & Youth', 'Fitness Enthusiasts', 'Regional Users'].map(wrapLabel),
+                datasets: [{
+                    data: [35, 25, 20, 20],
+                    backgroundColor: [
+                        '#3b82f6', // Blue
+                        '#10b981', // Green
+                        '#a855f7', // Purple
+                        '#f97316'  // Orange
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }, // Hiding legend to use custom HTML legend for layout control
+                    tooltip: globalTooltipPlugin
+                },
+                cutout: '70%'
+            }
+        });
+
+        // --- CHART 3: BAR CHART (Feasibility) ---
+        // Justification: Good for comparing discrete quantities (scores).
+        const ctxBar = document.getElementById('feasibilityChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Tech Readiness', 'Market Demand', 'User Readiness', 'Cost Efficiency'].map(wrapLabel),
+                datasets: [{
+                    label: 'Feasibility Score (1-10)',
+                    data: [9.5, 9.8, 8.5, 9.0],
+                    backgroundColor: [
+                        '#FF6B00',
+                        '#FF6B00',
+                        '#2E86AB',
+                        '#2E86AB'
+                    ],
+                    borderRadius: 6,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y', // Horizontal bar chart for easier label reading
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 10,
+                        grid: { display: false }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { font: { family: 'Poppins' } }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: globalTooltipPlugin
                 }
             }
         });
     </script>
 </body>
 </html>
-
-
